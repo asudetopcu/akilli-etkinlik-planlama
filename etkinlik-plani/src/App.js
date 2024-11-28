@@ -1,24 +1,40 @@
+import React, { useEffect } from "react"; // useEffect'i buradan import edin
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
 import HomePage from "./pages/HomePage";
 import EventPage from "./pages/EventPage";
 import ChatPage from "./pages/ChatPage";
 import UserProfile from "./pages/UserProfile";
 import AdminProfile from "./pages/AdminProfile";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ForgotPassword from "./pages/ForgotPasswordPage";
 
-function App() {
+
+const App = () => {
+
+    useEffect(() => {
+        // Sayfa yüklendiğinde token'ı header'a eklemek
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+        }
+      }, []);
+
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<LoginPage />} />
                 <Route path="/event/:id" element={<EventPage />} />
                 <Route path="/chat" element={<ChatPage />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/admin" element={<AdminProfile />} />
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/home" element={<HomePage />}/>
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
             </Routes>
         </Router>
     );
-}
+};
 
 export default App;

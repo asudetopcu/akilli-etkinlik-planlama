@@ -1,14 +1,9 @@
 const express = require("express");
-const { User } = require("../models");
 const router = express.Router();
+const authController = require("../controllers/authController");
 
-router.post("/register", async (req, res) => {
-    try {
-        const user = await User.create(req.body);
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+// Kullanıcı Kayıt ve Giriş İşlemleri
+router.post("/register", authController.register); // authController içindeki register fonksiyonunu kullanır
+router.post("/login", authController.login); // authController içindeki login fonksiyonunu kullanır
 
 module.exports = router;

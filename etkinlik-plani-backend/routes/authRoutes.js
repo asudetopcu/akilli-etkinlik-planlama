@@ -1,12 +1,23 @@
 const express = require("express");
-const { register, login, resetPassword, updateUserProfile } = require("../controllers/authController");
+const { register, login, resetPassword, resetPasswordRequest, updateProfile } = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
-
+const authController = require("../controllers/authController");
 const router = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
-router.post("/reset-password", resetPassword);
-router.put("/update-profile", protect, updateUserProfile);
+// Kullanıcı kayıt
+router.post("/register", authController.register);
+
+
+// Kullanıcı giriş
+router.post("/login", authController.login);
+
+// Şifre sıfırlama talebi
+router.post("/reset-password-request", authController.resetPasswordRequest);
+
+// Şifre sıfırlama
+router.post("/reset-password", authController.resetPassword);
+
+// Kullanıcı profil güncelleme (Yetki gerektirir)
+router.put("/update-profile", protect, authController.updateProfile);
 
 module.exports = router;

@@ -1,0 +1,117 @@
+/* Login Page Container */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #4facfe, #00f2fe); /* Modern bir arka plan gradyanı */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Login Box */
+.login-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+}
+
+/* Title and Subtitle */
+.login-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.login-subtitle {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Input Fields */
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Login Button */
+.login-button {
+    background: #4facfe;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.login-button:hover {
+    background: #00c6ff;
+}
+
+/* Links Section */
+.login-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: #00c6ff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.link-button:hover {
+    color: #0077b6;
+}
+
+/* Kayıt Ol ve Şifremi Unuttum Linkleri */
+.login-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: #4facfe;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.link-button:hover {
+    color: #0077b6;
+    text-decoration: underline;
+}
+.login-error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.login-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
