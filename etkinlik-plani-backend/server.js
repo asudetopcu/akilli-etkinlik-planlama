@@ -1,6 +1,5 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const cors = require("cors");
 const { sequelize } = require("./models"); // Sequelize bağlantısı
 
 dotenv.config();
@@ -10,7 +9,15 @@ const app = express();
 // Middleware'ler
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // CORS Middleware'ini kullanıyoruz
+const cors = require("cors");
+
+// CORS Middleware
+app.use(cors({
+    origin: "http://localhost:3000", // Frontend'in çalıştığı adres
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+}));
+
 
 // SQLite veritabanı bağlantısı
 (async () => {
@@ -37,5 +44,5 @@ app.use("/api/events", eventRoutes); // /api/events -> etkinlik işlemleri
 app.use("/api/messages", messageRoutes); // /api/messages -> mesajlaşma işlemleri
 
 // Sunucu başlatma
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Sunucu ${PORT} portunda çalışıyor.`));

@@ -30,32 +30,28 @@ const RegisterPage = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
     
-        // Boş alan kontrolü
         for (const key in formData) {
-            if (key !== "location" && key !== "interests" && !formData[key]) {
+            if (key !== "location" && !formData[key]) {
                 alert(`${key} alanı boş bırakılamaz.`);
                 return;
             }
         }
     
         try {
-            const [day, month, year] = formData.birthDate.split("/");
-            const formattedBirthDate = new Date(`${year}-${month}-${day}`).toISOString();
-    
             const formattedData = {
                 ...formData,
-                birthDate: formattedBirthDate,
-                interests: formData.interests
-                    ? JSON.stringify(formData.interests.split(",").map((i) => i.trim()))
-                    : JSON.stringify([]),
+                interests: formData.interests, // Virgüllerle ayrılmış string
             };
     
-            await axios.post("http://localhost:3000/api/auth/register", formattedData);
+            await axios.post("http://localhost:5000/api/auth/register", formattedData);
             alert("Kayıt başarılı!");
+            navigate("/");
         } catch (error) {
             alert("Kayıt başarısız: " + (error.response?.data?.message || "Bilinmeyen hata."));
         }
     };
+    
+    
       
     return (
         <div className="register-container">

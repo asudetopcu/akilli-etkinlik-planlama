@@ -11,22 +11,22 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        // Form doğrulama: Email ve şifre kontrolü
-        if (!email || !password) {
-            setError("Email ve şifre boş bırakılamaz.");
-            return;
-        }
-
+    
         try {
-            const response = await axios.post("http://localhost:3000/api/auth/login", {
+            const response = await axios.post("http://localhost:5000/api/auth/login", {
                 email,
-                password, // Kullanıcıdan alınan düz metin şifre
+                password,
             });
-
-            alert("Giriş başarılı!");
-            console.log("Gelen yanıt:", response.data); // Gelen yanıtı logla
-            navigate("/homepage"); // Başarılı girişte yönlendirme
+    
+            // Gelen yanıtı kontrol edin
+            console.log("Gelen yanıt:", response.data);
+    
+            if (response.data.token) {
+                alert("Giriş başarılı!");
+                navigate("/homepage"); // Başarılı girişte yönlendirme
+            } else {
+                setError("Geçersiz kullanıcı bilgileri."); // Token yoksa hata
+            }
         } catch (error) {
             console.error("Hata:", error.response?.data?.message || "Bilinmeyen bir hata.");
             setError(error.response?.data?.message || "Giriş başarısız.");

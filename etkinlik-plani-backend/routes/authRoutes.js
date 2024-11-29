@@ -5,17 +5,13 @@ const authController = require("../controllers/authController");
 const router = express.Router();
 
 // Kullanıcı kayıt
-router.post("/register", authController.register);
+router.post("/register", register);
 
 
 // Kullanıcı giriş
 router.post("/login", authController.login);
-
-// Şifre sıfırlama talebi
-router.post("/reset-password-request", authController.resetPasswordRequest);
-
-// Şifre sıfırlama
-router.post("/reset-password", authController.resetPassword);
+router.post("/reset-password-request", authController.resetPasswordRequest); // Şifre sıfırlama talebi
+router.post("/reset-password", authController.resetPassword);  
 
 // Kullanıcı profil güncelleme (Yetki gerektirir)
 router.put("/update-profile", protect, authController.updateProfile);

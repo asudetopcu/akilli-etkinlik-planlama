@@ -9,17 +9,17 @@ import AdminProfile from "./pages/AdminProfile";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
 const App = () => {
 
     useEffect(() => {
-        // Sayfa yüklendiğinde token'ı header'a eklemek
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem("authToken");
         if (token) {
-          axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         }
-      }, []);
+    }, []);
 
     return (
         <Router>
@@ -30,8 +30,9 @@ const App = () => {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/admin" element={<AdminProfile />} />
-                <Route path="/home" element={<HomePage />}/>
+                <Route path="/homepage" element={<HomePage />}/>
                 <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
             </Routes>
         </Router>
     );

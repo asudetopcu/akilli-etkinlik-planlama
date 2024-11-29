@@ -30,11 +30,25 @@ const Event = sequelize.define("Event", {
     category: { type: DataTypes.STRING }
 });
 
-// Katılımcılar Modeli
 const Participant = sequelize.define("Participant", {
-    userId: { type: DataTypes.INTEGER, references: { model: User, key: 'id' }},
-    eventId: { type: DataTypes.INTEGER, references: { model: Event, key: 'id' }}
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: { model: User, key: "id" },
+        primaryKey: true, // Birincil anahtarın parçası
+    },
+    eventId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: { model: Event, key: "id" },
+        primaryKey: true, // Birincil anahtarın parçası
+    },
+    joinedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
 });
+
 
 // Mesajlar Modeli
 const Message = sequelize.define("Message", {
@@ -54,9 +68,10 @@ const Score = sequelize.define("Score", {
 // Tabloları Eşitleme
 (async () => {
     try {
-        await sequelize.sync({ alter: true }); // Tabloları eşitleme
-        console.log("Veritabanı tabloları eşitlendi!");
+        await sequelize.sync({ force: true }); // Tabloları sıfırla ve yeniden oluştur
+        console.log("Veritabanı tabloları sıfırlandı ve yeniden oluşturuldu!");
     } catch (error) {
         console.error("Veritabanı hatası:", error);
     }
 })();
+

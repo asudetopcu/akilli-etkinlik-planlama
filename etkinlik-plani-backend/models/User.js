@@ -9,7 +9,7 @@ const User = sequelize.define(
         email: { type: DataTypes.STRING, allowNull: false, unique: true },
         password: { type: DataTypes.STRING, allowNull: false },
         location: { type: DataTypes.STRING },
-        interests: { type: DataTypes.JSON }, // JSON formatında tanımlama
+        interests: { type: DataTypes.TEXT }, // İlgi alanlarını JSON string olarak tutmak için TEXT
         firstName: { type: DataTypes.STRING },
         lastName: { type: DataTypes.STRING },
         birthDate: { type: DataTypes.DATE },
@@ -20,5 +20,6 @@ const User = sequelize.define(
     },
     { timestamps: true }
 );
+
 
 module.exports = User;

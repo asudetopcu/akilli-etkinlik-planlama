@@ -8,7 +8,7 @@ const ForgotPassword = () => {
     const handleForgotPassword = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:3000/api/reset-password-request", { email });
+            await axios.post("http://localhost:5000/api/reset-password-request", { email });
             alert("Şifre sıfırlama talimatları e-postanıza gönderildi.");
         } catch (error) {
             alert(error.response?.data?.message || "Hata oluştu.");
