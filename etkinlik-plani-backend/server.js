@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const { sequelize } = require("./models"); // Sequelize bağlantısı
+const cors = require("cors");
+const { sequelize } = require("./models");
 
 dotenv.config();
 
@@ -9,20 +10,18 @@ const app = express();
 // Middleware'ler
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const cors = require("cors");
+app.use(
+    cors({
+        origin: "http://localhost:3000", // Frontend adresi
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
+    })
+);
 
-// CORS Middleware
-app.use(cors({
-    origin: "http://localhost:3000", // Frontend'in çalıştığı adres
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-}));
-
-
-// SQLite veritabanı bağlantısı
+// Veritabanı bağlantısı
 (async () => {
     try {
-        await sequelize.authenticate(); // Veritabanı bağlantısını test et
+        await sequelize.authenticate();
         console.log("SQLite veritabanı bağlandı!");
 
         // Tabloları eşitle
@@ -34,15 +33,11 @@ app.use(cors({
 })();
 
 // Rotalar
-const authRoutes = require("./routes/authRoutes"); // Auth rotaları
-const eventRoutes = require("./routes/eventRoutes"); // Etkinlik rotaları
-const messageRoutes = require("./routes/messageRoutes"); // Mesajlaşma rotaları
+const authRoutes = require("./routes/authRoutes"); // Authentication rotaları
 
 // Rotaları kullanıma aç
-app.use("/api/auth", authRoutes); // /api/auth -> register ve login işlemleri
-app.use("/api/events", eventRoutes); // /api/events -> etkinlik işlemleri
-app.use("/api/messages", messageRoutes); // /api/messages -> mesajlaşma işlemleri
+app.use("/api/auth", authRoutes);
 
-// Sunucu başlatma
+// Sunucuyu başlat
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Sunucu ${PORT} portunda çalışıyor.`));

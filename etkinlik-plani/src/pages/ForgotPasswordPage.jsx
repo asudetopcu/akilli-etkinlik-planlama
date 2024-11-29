@@ -7,13 +7,16 @@ const ForgotPassword = () => {
 
     const handleForgotPassword = async (e) => {
         e.preventDefault();
+    
         try {
-            await axios.post("http://localhost:5000/api/reset-password-request", { email });
-            alert("Şifre sıfırlama talimatları e-postanıza gönderildi.");
+            await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
+
+            alert("Şifre sıfırlama bağlantısı gönderildi. E-posta adresinizi kontrol edin.");
         } catch (error) {
-            alert(error.response?.data?.message || "Hata oluştu.");
+            alert("Hata oluştu: " + (error.response?.data?.message || "Bilinmeyen bir hata oluştu."));
         }
     };
+    
 
     return (
         <div className="forgot-container">

@@ -8,7 +8,7 @@ import UserProfile from "./pages/UserProfile";
 import AdminProfile from "./pages/AdminProfile";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import ForgotPassword from "./pages/ForgotPasswordPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
@@ -31,7 +31,7 @@ const App = () => {
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/admin" element={<AdminProfile />} />
                 <Route path="/homepage" element={<HomePage />}/>
-                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
             </Routes>
         </Router>

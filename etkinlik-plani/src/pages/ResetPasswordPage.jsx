@@ -14,23 +14,23 @@ const ResetPassword = () => {
         const token = urlParams.get("token");
 
         if (!token) {
-            alert("Geçersiz veya eksik token.");
+            setMessage("Geçersiz veya eksik token.");
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            alert("Şifreler eşleşmiyor.");
+            setMessage("Şifreler eşleşmiyor.");
             return;
         }
 
         try {
-            await axios.post("http://localhost:5000/api/reset-password", {
+            const response = await axios.post("http://localhost:5000/api/auth/reset-password", {
                 token,
                 newPassword,
             });
-            setMessage("Şifre başarıyla güncellendi. Şimdi giriş yapabilirsiniz.");
+            setMessage(response.data.message || "Şifre başarıyla güncellendi. Şimdi giriş yapabilirsiniz.");
         } catch (error) {
-            setMessage(error.response?.data?.message || "Hata oluştu.");
+            setMessage(error.response?.data?.message || "Bir hata oluştu. Lütfen tekrar deneyin.");
         }
     };
 
