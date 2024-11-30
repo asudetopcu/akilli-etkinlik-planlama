@@ -22,6 +22,8 @@ const LoginPage = () => {
             console.log("Gelen yanıt:", response.data);
     
             if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+
                 alert("Giriş başarılı!");
                 navigate("/homepage"); // Başarılı girişte yönlendirme
             } else {

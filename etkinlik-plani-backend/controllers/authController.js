@@ -4,7 +4,18 @@ const User = require('../models/User'); // Kullanıcı modelimiz
 const { validationResult } = require('express-validator'); // Veritabanı kayıtlarını doğrulamak için
 
 exports.register = async (req, res) => {
-    const { username, email, password, firstName, lastName, birthDate, gender, phoneNumber, profilePicture, interests } = req.body;
+    const {
+        username,
+        email,
+        password,
+        firstName,
+        lastName,
+        birthDate,
+        gender,
+        phoneNumber,
+        profilePicture,
+        interests,
+    } = req.body;
 
     try {
         // E-posta kontrolü
@@ -14,7 +25,9 @@ exports.register = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10); // Şifreyi hashle
-        const formattedInterests = interests ? JSON.stringify(interests.split(",").map((item) => item.trim())) : "[]";
+        const formattedInterests = interests
+            ? JSON.stringify(interests.split(",").map((item) => item.trim()))
+            : "[]";
 
         const user = await User.create({
             username,
@@ -31,13 +44,39 @@ exports.register = async (req, res) => {
 
         res.status(201).json({ message: "Kayıt başarılı!", user });
     } catch (error) {
-        console.error("Validation hatası detayları:", error.errors || error.message); // Hata logları
+        // Sequelize Unique Constraint Hatası Yönetimi
+        if (error.name === "SequelizeUniqueConstraintError") {
+            const errors = error.errors.map((err) => ({
+                field: err.path,
+                message: `${err.path} benzersiz olmalı: ${err.value}`,
+            }));
+            return res.status(400).json({
+                message: "Kayıt başarısız. Kullanıcı adı benzersiz olmalı.",
+                errors,
+            });
+        }
+
+        // Validation Hataları Yönetimi
+        if (error.name === "SequelizeValidationError") {
+            const errors = error.errors.map((err) => ({
+                field: err.path,
+                message: err.message,
+            }));
+            return res.status(400).json({
+                message: "Doğrulama hatası oluştu.",
+                errors,
+            });
+        }
+
+        // Diğer Hataları Yönet
+        console.error("Hata detayları:", error.message || error);
         return res.status(500).json({
             message: "Kayıt sırasında bir hata oluştu.",
-            details: error.errors || error.message,
+            details: error.message || error,
         });
     }
 };
+
 
 
 exports.login = async (req, res) => {
@@ -54,17 +93,13 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: "Geçersiz şifre." });
         }
 
-        // İlgi alanlarını parse et
-        const parsedInterests = JSON.parse(user.interests || "[]");
-
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
         res.status(200).json({
             user: {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                interests: parsedInterests, // İlgi alanlarını parse edilmiş olarak döndür
             },
             token,
         });
@@ -72,7 +107,6 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: "Bir hata oluştu: " + error.message });
     }
 };
-
 
 
 const nodemailer = require("nodemailer");

@@ -4,7 +4,7 @@ import axios from "axios";
 import HomePage from "./pages/HomePage";
 import EventPage from "./pages/EventPage";
 import ChatPage from "./pages/ChatPage";
-import UserProfile from "./pages/UserProfile";
+import UserProfilePage from "./pages/UserProfilePage";
 import AdminProfile from "./pages/AdminProfile";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -28,7 +28,7 @@ const App = () => {
                 <Route path="/event/:id" element={<EventPage />} />
                 <Route path="/chat" element={<ChatPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/profile" element={<UserProfilePage />} />
                 <Route path="/admin" element={<AdminProfile />} />
                 <Route path="/homepage" element={<HomePage />}/>
                 <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
