@@ -5,7 +5,6 @@ const Participant = require("./Participant");
 const Message = require("./Message");
 const Point = require("./Point");
 
-// İlişkiler
 User.hasMany(Event, { foreignKey: "createdBy" });
 Event.belongsTo(User, { foreignKey: "createdBy" });
 

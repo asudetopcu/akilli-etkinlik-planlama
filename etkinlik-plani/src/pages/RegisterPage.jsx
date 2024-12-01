@@ -40,7 +40,7 @@ const RegisterPage = () => {
         try {
             const formattedData = {
                 ...formData,
-                interests: formData.interests, // Virgüllerle ayrılmış string
+                interests: formData.interests, 
             };
     
             await axios.post("http://localhost:5000/api/auth/register", formattedData);

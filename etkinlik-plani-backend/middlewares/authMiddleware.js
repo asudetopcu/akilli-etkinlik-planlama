@@ -8,21 +8,35 @@ exports.authMiddleware = async (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Token'i çöz
-        console.log("Decoded Token:", decoded); // Token'in içerdiği verileri yazdırın
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+        console.log("Decoded Token:", decoded); 
 
-        const user = await User.findByPk(decoded.id); // Veritabanında kullanıcıyı bul
+        const user = await User.findByPk(decoded.id); 
         if (!user) {
             return res.status(404).json({ message: "Kullanıcı bulunamadı." });
         }
 
-        console.log("Authenticated User:", user.dataValues); // Bulunan kullanıcıyı yazdırın
+        console.log("Authenticated User:", user.dataValues); 
 
-        req.user = user; // Kullanıcıyı request'e ekle
-        next(); // Bir sonraki middleware'e geç
+        req.user = { id: user.id };
+        next(); 
     } catch (error) {
         console.error("Doğrulama hatası:", error);
         return res.status(401).json({ message: "Geçersiz token." });
     }
 };
 
+exports.authenticate = (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(" ")[1]; 
+        if (!token) {
+            return res.status(401).json({ message: "Yetkilendirme gerekli." });
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); 
+        req.user = decoded; 
+        next();
+    } catch (error) {
+        res.status(401).json({ message: "Geçersiz token." });
+    }
+};

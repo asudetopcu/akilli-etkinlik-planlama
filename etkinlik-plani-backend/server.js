@@ -1,52 +1,47 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const { sequelize } = require("./models"); // Veritabanı bağlantısı
+const { sequelize } = require("./models");
 
-dotenv.config(); // .env dosyasını yükle
+dotenv.config(); 
 
-const app = express(); // Express uygulamasını başlat
+const app = express();
 
-// Middleware'ler
-app.use(express.json()); // JSON desteği
-app.use(express.urlencoded({ extended: true })); // URL-encoded desteği
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
-        origin: "http://localhost:3000", // Frontend adresi
+        origin: "http://localhost:3000",
         methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true, // Çerez paylaşımı
+        credentials: true, 
     })
 );
 
-// Veritabanı bağlantısı ve tabloları eşitleme
 (async () => {
     try {
-        await sequelize.authenticate(); // Veritabanı bağlantısını test et
+        await sequelize.authenticate();
         console.log("SQLite veritabanı bağlandı!");
 
-        await sequelize.sync({ alter: true }); // Tabloları eşitle
+        await sequelize.sync({ alter: true }); 
         console.log("Veritabanı tabloları eşitlendi!");
     } catch (error) {
         console.error("SQLite bağlantı hatası:", error);
     }
 })();
 
-// Rotaları içe aktar
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const eventRoutes = require("./routes/eventRoutes");
 
-// Rotaları tanımla
-app.use("/api/auth", authRoutes); // Authentication işlemleri
+app.use("/api/auth", authRoutes); 
 
-app.use("/api/user", userRoutes); // Authentication işlemleri
+app.use("/api/user", userRoutes); 
+app.use("/api/events", eventRoutes);
 
-
-// 404 Rotalar için hata yakalayıcı
 app.use((req, res) => {
     res.status(404).json({ message: "Rota bulunamadı." });
 });
 
-// Sunucuyu başlat
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Sunucu ${PORT} portunda çalışıyor.`);

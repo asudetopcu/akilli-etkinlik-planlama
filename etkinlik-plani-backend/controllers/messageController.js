@@ -3,7 +3,7 @@ const Message = require("../models/Message");
 exports.sendMessage = async (req, res) => {
     try {
         const { eventId, content } = req.body;
-        const senderId = req.user.id; // Kullanıcı kimliği `protect` middleware'den gelir
+        const senderId = req.user.id; 
 
         const newMessage = await Message.create({ eventId, senderId, content });
         res.status(201).json({ message: "Mesaj başarıyla gönderildi.", newMessage });

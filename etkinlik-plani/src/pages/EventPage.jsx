@@ -9,7 +9,7 @@ const EventPage = () => {
     useEffect(() => {
         const fetchEvent = async () => {
             try {
-                const response = await api.get(`/events/${id}`); // Etkinlik detayını al
+                const response = await api.get(`/events/${id}`); 
                 setEvent(response.data);
             } catch (error) {
                 console.error("Etkinlik yüklenemedi:", error);

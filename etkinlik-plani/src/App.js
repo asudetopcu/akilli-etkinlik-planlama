@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; // useEffect'i buradan import edin
+import React, { useEffect } from "react"; 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import HomePage from "./pages/HomePage";
@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import EventDetailsPage from "./pages/EventDetailsPage";
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/homepage" element={<HomePage />}/>
                 <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/events/:id" element={<EventDetailsPage />} />
             </Routes>
         </Router>
     );

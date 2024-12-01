@@ -4,11 +4,10 @@ import "./UserProfilePage.css";
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
-  const [editMode, setEditMode] = useState(false); // Düzenleme modu
+  const [editMode, setEditMode] = useState(false); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Kullanıcı bilgilerini çekme
   useEffect(() => {
     const fetchUserProfile = async () => {
         try {
@@ -18,12 +17,10 @@ const UserProfile = () => {
                 },
             });
 
-            // `interests` alanını kontrol edip parse et
             const parsedInterests = typeof response.data.interests === "string"
-                ? JSON.parse(response.data.interests) // String ise JSON parse yap
-                : response.data.interests || []; // Null ise boş bir dizi yap
+                ? JSON.parse(response.data.interests) 
+                : response.data.interests || []; 
 
-            // Kullanıcı bilgilerini ayarla
             setUser({ ...response.data, interests: parsedInterests });
             setLoading(false);
         } catch (err) {
@@ -46,10 +43,10 @@ const UserProfile = () => {
     try {
         const updatedUser = {
             ...user,
-            interests: user.interests || [], // İlgi alanlarını doğru formatta gönder
+            interests: user.interests || [], 
         };
 
-        console.log("Gönderilen Veri:", updatedUser); // Gönderilen verileri kontrol edin
+        console.log("Gönderilen Veri:", updatedUser); 
 
         const response = await axios.put(
             "http://localhost:5000/api/user/profile",
@@ -60,24 +57,21 @@ const UserProfile = () => {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 validateStatus: (status) => {
-                    return status >= 200 && status < 300; // Sadece 2xx kodlarını başarılı kabul et
+                    return status >= 200 && status < 300; 
                 },
             }
         );
 
         console.log("Güncelleme Sonucu:", updatedUser);
 
-        // Başarılı bir yanıt alındığında
         if (response.status === 200) {
-            alert(response.data.message); // Başarı mesajı göster
-            setEditMode(false); // Düzenleme modundan çık
-            window.location.href = "/profile"; // Profil sayfasına yönlendir
+            alert(response.data.message); 
+            setEditMode(false); 
+            window.location.href = "/profile"; 
         } else {
-            // Eğer başka bir 2xx statü kodu alınırsa
             alert("Beklenmeyen bir hata oluştu.");
         }
     } catch (err) {
-        // Hata detaylarını logla
         console.error("Hata Detayı:", err.response || err.message);
         alert("Profil güncellenirken bir hata oluştu.");
     }

@@ -8,7 +8,7 @@ const User = sequelize.define(
         username: { type: DataTypes.STRING, allowNull: false, unique: true },
         email: { type: DataTypes.STRING, allowNull: false, unique: true },
         password: { type: DataTypes.STRING, allowNull: false },
-        interests: { type: DataTypes.TEXT }, // JSON string olarak tutuyoruz
+        interests: { type: DataTypes.TEXT }, 
         firstName: { type: DataTypes.STRING },
         lastName: { type: DataTypes.STRING },
         birthDate: { type: DataTypes.DATE },

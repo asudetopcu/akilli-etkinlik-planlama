@@ -1,4 +1,19 @@
-/* Profil Header */
+.homepage-container {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    padding: 20px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden; /* Yatay kaymayı engeller */
+    width: 100%; /* Tam ekran genişliği */
+    box-sizing: border-box;
+    margin: 0; /* Dış boşlukları kaldır */
+}
+
+
+
 .profile-header {
     display: flex;
     align-items: center;
@@ -28,4 +43,159 @@
 
 .profile-link:hover {
     color: #0056b3;
+}
+
+
+.hero-banner {
+    text-align: center;
+    margin: 0; /* Sağ ve sol boşlukları kaldır */
+    background: linear-gradient(to right, #007bff, #00c6ff);
+    color: white;
+    padding: 30px 0;
+    width: 100%; /* Tam genişlik */
+    border-radius: 0; /* Köşeleri kaldır */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.hero-banner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.hero-banner p {
+    font-size: 1.2rem;
+    color: #f1f1f1;
+    margin-top: 10px;
+}
+
+
+
+.popular-events {
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.popular-events h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+.event-carousel {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin; 
+}
+
+
+.carousel-slide {
+    flex: 0 0 220px; 
+    max-width: 220px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+
+
+.event-card h3 {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+
+.event-card p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 10px 0;
+}
+
+
+.detail-button {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.detail-button:hover {
+    background: #0056b3;
+}
+
+.add-event {
+    margin-top: 40px;
+    width: 100%;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+    align-self: center; 
+}
+
+.add-event h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.add-event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; 
+}
+
+.add-event-form input,
+.add-event-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; 
+    max-width: 600px; 
+    box-sizing: border-box;
+}
+
+.add-event-form textarea {
+    resize: none;
+    height: 100px;
+}
+
+.add-event-button {
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    max-width: 200px; 
+    font-weight: bold;
+}
+
+.add-event-button:hover {
+    background: #0056b3;
 }

@@ -21,7 +21,7 @@ const ChatPage = () => {
     const sendMessage = async () => {
         try {
             const response = await api.post("/messages", { content: newMessage });
-            setMessages((prev) => [...prev, response.data]); // Yeni mesajı ekle
+            setMessages((prev) => [...prev, response.data]); 
             setNewMessage("");
         } catch (error) {
             console.error("Mesaj gönderilemedi:", error);

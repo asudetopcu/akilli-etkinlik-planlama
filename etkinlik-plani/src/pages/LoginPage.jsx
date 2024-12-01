@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // API çağrısı için axios'u import ediyoruz
+import axios from "axios"; 
 import "./LoginPage.css";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState(""); // Kullanıcı email state'i
-    const [password, setPassword] = useState(""); // Kullanıcı şifre state'i
-    const [error, setError] = useState(""); // Hata mesajını göstermek için
-    const navigate = useNavigate(); // Sayfa yönlendirme fonksiyonu
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState(""); 
+    const [error, setError] = useState(""); 
+    const navigate = useNavigate(); 
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -18,16 +18,15 @@ const LoginPage = () => {
                 password,
             });
     
-            // Gelen yanıtı kontrol edin
             console.log("Gelen yanıt:", response.data);
     
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
 
                 alert("Giriş başarılı!");
-                navigate("/homepage"); // Başarılı girişte yönlendirme
+                navigate("/homepage");
             } else {
-                setError("Geçersiz kullanıcı bilgileri."); // Token yoksa hata
+                setError("Geçersiz kullanıcı bilgileri."); 
             }
         } catch (error) {
             console.error("Hata:", error.response?.data?.message || "Bilinmeyen bir hata.");
@@ -57,7 +56,7 @@ const LoginPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {error && <p className="login-error">{error}</p>} {/* Hata mesajı */}
+                    {error && <p className="login-error">{error}</p>} {}
                     <button type="submit" className="login-button">
                         Giriş Yap
                     </button>

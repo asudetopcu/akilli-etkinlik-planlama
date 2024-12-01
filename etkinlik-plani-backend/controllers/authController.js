@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Kullanıcı modelimiz
-const { validationResult } = require('express-validator'); // Veritabanı kayıtlarını doğrulamak için
+const User = require('../models/User'); 
+const { validationResult } = require('express-validator'); 
 
 exports.register = async (req, res) => {
     const {
@@ -18,13 +18,12 @@ exports.register = async (req, res) => {
     } = req.body;
 
     try {
-        // E-posta kontrolü
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: "Bu e-posta adresi zaten kayıtlı." });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10); // Şifreyi hashle
+        const hashedPassword = await bcrypt.hash(password, 10); 
         const formattedInterests = interests
             ? JSON.stringify(interests.split(",").map((item) => item.trim()))
             : "[]";
@@ -39,12 +38,11 @@ exports.register = async (req, res) => {
             gender,
             phoneNumber,
             profilePicture: profilePicture || null,
-            interests: formattedInterests, // JSON string olarak kaydediyoruz
+            interests: formattedInterests, 
         });
 
         res.status(201).json({ message: "Kayıt başarılı!", user });
     } catch (error) {
-        // Sequelize Unique Constraint Hatası Yönetimi
         if (error.name === "SequelizeUniqueConstraintError") {
             const errors = error.errors.map((err) => ({
                 field: err.path,
@@ -56,7 +54,6 @@ exports.register = async (req, res) => {
             });
         }
 
-        // Validation Hataları Yönetimi
         if (error.name === "SequelizeValidationError") {
             const errors = error.errors.map((err) => ({
                 field: err.path,
@@ -68,7 +65,6 @@ exports.register = async (req, res) => {
             });
         }
 
-        // Diğer Hataları Yönet
         console.error("Hata detayları:", error.message || error);
         return res.status(500).json({
             message: "Kayıt sırasında bir hata oluştu.",
@@ -114,10 +110,10 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false, // TLS için
+    secure: false, 
     auth: {
-        user: process.env.EMAIL_USER, // Sabit Gmail adresiniz
-        pass: process.env.EMAIL_PASS, // Oluşturulan 16 haneli uygulama şifresi
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
     },
 });
 
@@ -126,26 +122,21 @@ exports.resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
 
     try {
-        // Token'ı doğrula
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decoded.id;
 
-        // Kullanıcıyı bul
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ message: "Kullanıcı bulunamadı." });
         }
 
-        // Yeni şifreyi hashle
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        // Kullanıcının şifresini güncelle
         user.password = hashedPassword;
         await user.save();
 
         res.status(200).json({ message: "Şifre başarıyla güncellendi." });
     } catch (error) {
-        // Token hatası veya başka bir hata varsa
         if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") {
             return res.status(400).json({ message: "Geçersiz veya süresi dolmuş token." });
         }
@@ -159,7 +150,7 @@ const updatePasswords = async () => {
     const users = await User.findAll();
 
     for (let user of users) {
-        if (!user.password.startsWith("$2b$")) { // Zaten hashlenmiş mi kontrol et
+        if (!user.password.startsWith("$2b$")) { 
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword;
             await user.save();
@@ -178,16 +169,13 @@ exports.forgotPassword = async (req, res) => {
             return res.status(404).json({ message: "Bu e-posta ile kayıtlı kullanıcı bulunamadı." });
         }
 
-        // Şifre sıfırlama tokeni oluştur
         const resetToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "15m" });
 
-        // Şifre sıfırlama bağlantısını oluştur
         const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
-        // E-posta gönder
         await transporter.sendMail({
-            from: process.env.EMAIL_USER, // Gönderen e-posta adresi
-            to: email, // Alıcı e-posta adresi
+            from: process.env.EMAIL_USER, 
+            to: email, 
             subject: "Şifre Sıfırlama Talebi",
             html: `<p>Şifre sıfırlama talebiniz alındı. Yeni şifre belirlemek için aşağıdaki bağlantıya tıklayın:</p>
                    <a href="${resetLink}">${resetLink}</a>`,
@@ -202,13 +190,12 @@ exports.forgotPassword = async (req, res) => {
 
 
 exports.updateProfile = async (req, res) => {
-    const userId = req.user.id;  // JWT ile alınan kullanıcı ID'si
+    const userId = req.user.id;  
     const { username, email, location, interests, firstName, lastName, phoneNumber, profilePicture } = req.body;
 
     const user = await User.findByPk(userId);
     if (!user) return res.status(404).json({ message: "Kullanıcı bulunamadı." });
 
-    // Kullanıcı bilgilerini güncelle
     user.username = username || user.username;
     user.email = email || user.email;
     user.location = location || user.location;

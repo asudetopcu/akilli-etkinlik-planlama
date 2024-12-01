@@ -21,7 +21,6 @@ exports.getUserProfile = async (req, res) => {
             return res.status(404).json({ message: "Kullanıcı bulunamadı." });
         }
 
-        // İlgi alanlarını JSON olarak parse et ve döndür
         const interests = user.interests ? JSON.parse(user.interests) : [];
         res.status(200).json({ ...user.toJSON(), interests });
     } catch (error) {
@@ -32,7 +31,7 @@ exports.getUserProfile = async (req, res) => {
 
 exports.updateUserProfile = async (req, res) => {
     try {
-        const userId = req.user.id; // Kullanıcı ID'si middleware'den alınır
+        const userId = req.user.id; 
         const {
             firstName,
             lastName,
@@ -43,13 +42,11 @@ exports.updateUserProfile = async (req, res) => {
             interests,
         } = req.body;
 
-        // Gelen verileri logla (kontrol için)
         console.log("Kullanıcı ID:", userId);
         console.log("Gelen Veriler:", req.body);
-        console.log("Kullanıcı ID (req.user.id):", userId); // Middleware'den gelen ID
-        console.log("Gelen Veriler (req.body):", req.body); // Gelen veriler
+        console.log("Kullanıcı ID (req.user.id):", userId); 
+        console.log("Gelen Veriler (req.body):", req.body); 
 
-        // Veritabanında güncelleme işlemi
         const updatedUser = await User.update(
             {
                 firstName,
@@ -65,15 +62,13 @@ exports.updateUserProfile = async (req, res) => {
         
         console.log("Güncelleme Sonucu:", updatedUser);
 
-        if (updatedUser[0] === 0) { // Eğer güncellenen satır sayısı 0 ise
+        if (updatedUser[0] === 0) { 
             console.log("Güncelleme başarısız: Kullanıcı bulunamadı veya veri değişmedi.");
             return res.status(404).json({ message: "Kullanıcı bulunamadı veya veri değişmedi." });
         }
 
-        // Başarılı güncelleme
         res.status(200).json({ message: "Profil başarıyla güncellendi." });
     } catch (error) {
-        // Hata durumunda detaylı log ve 500 hatası gönder
         console.error("Güncelleme hatası:", error);
         res.status(500).json({ message: "Profil güncellenirken bir hata oluştu." });
     }

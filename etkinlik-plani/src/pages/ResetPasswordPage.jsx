@@ -10,7 +10,7 @@ const ResetPassword = () => {
     const handleResetPassword = async (e) => {
         e.preventDefault();
 
-        const urlParams = new URLSearchParams(window.location.search); // Token'ı URL'den alıyoruz
+        const urlParams = new URLSearchParams(window.location.search); 
         const token = urlParams.get("token");
 
         if (!token) {

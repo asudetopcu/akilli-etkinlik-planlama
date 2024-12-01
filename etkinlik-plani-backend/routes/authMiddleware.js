@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+
 exports.protect = async (req, res, next) => {
     let token;
 
@@ -14,7 +15,9 @@ exports.protect = async (req, res, next) => {
     try {
         // Token'ı doğrulama
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;  // Kullanıcı bilgilerini ekle
+        
+
+        req.user = decoded;  
         next();
     } catch (error) {
         res.status(401).json({ message: "Token geçersiz." });

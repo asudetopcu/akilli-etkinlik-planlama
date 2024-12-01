@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/database"); // Veritabanı bağlantısı
 
-// Kullanıcı Modeli
 const User = sequelize.define("User", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     username: { type: DataTypes.STRING, allowNull: false, unique: true },
@@ -18,7 +17,6 @@ const User = sequelize.define("User", {
     role: { type: DataTypes.ENUM("user", "admin"), defaultValue: "user" }
 }, { timestamps: true });
 
-// Etkinlik Modeli
 const Event = sequelize.define("Event", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
@@ -35,13 +33,13 @@ const Participant = sequelize.define("Participant", {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: { model: User, key: "id" },
-        primaryKey: true, // Birincil anahtarın parçası
+        primaryKey: true,
     },
     eventId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: { model: Event, key: "id" },
-        primaryKey: true, // Birincil anahtarın parçası
+        primaryKey: true, 
     },
     joinedAt: {
         type: DataTypes.DATE,
@@ -50,7 +48,6 @@ const Participant = sequelize.define("Participant", {
 });
 
 
-// Mesajlar Modeli
 const Message = sequelize.define("Message", {
     senderId: { type: DataTypes.INTEGER, references: { model: User, key: 'id' }},
     receiverId: { type: DataTypes.INTEGER, references: { model: User, key: 'id' }},
@@ -65,10 +62,9 @@ const Score = sequelize.define("Score", {
     awardedAt: { type: DataTypes.DATE, allowNull: false }
 });
 
-// Tabloları Eşitleme
 (async () => {
     try {
-        await sequelize.sync({ force: true }); // Tabloları sıfırla ve yeniden oluştur
+        await sequelize.sync({ force: true }); 
         console.log("Veritabanı tabloları sıfırlandı ve yeniden oluşturuldu!");
     } catch (error) {
         console.error("Veritabanı hatası:", error);

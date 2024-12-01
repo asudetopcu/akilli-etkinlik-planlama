@@ -7,14 +7,15 @@ const Event = sequelize.define("Event", {
     description: { type: DataTypes.TEXT },
     date: { type: DataTypes.DATEONLY, allowNull: false },
     time: { type: DataTypes.TIME },
-    duration: { type: DataTypes.INTEGER }, // Dakika cinsinden
+    duration: { type: DataTypes.INTEGER }, 
     location: { type: DataTypes.STRING },
     category: { type: DataTypes.STRING },
     createdBy: { 
-        type: DataTypes.INTEGER, 
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
         allowNull: false,
         references: {
-            model: "Users", // İlişki User tablosuna
+            model: "Users", 
             key: "id"
         }
     },

@@ -1,20 +1,15 @@
 const express = require("express");
-const { createEvent, updateEvent, deleteEvent, getAllEvents } = require("../controllers/eventController");
-const { protect } = require("../middlewares/authMiddleware");
+const { createEvent, updateEvent, deleteEvent, getAllEvents, getEventById, joinEvent } = require("../controllers/eventController");
+const { authenticate } = require("../middlewares/authMiddleware");
+
 const { isAdmin } = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
-// Etkinlik oluşturma
-router.post("/", protect, createEvent);
-
-// Etkinlik güncelleme
-router.put("/:id", protect, updateEvent);
-
-// Etkinlik silme (admin yetkisi gerektirir)
-router.delete("/:id", protect, isAdmin, deleteEvent);
-
-// Tüm etkinlikleri listeleme
-router.get("/", protect, getAllEvents);
-
+router.post("/", createEvent); 
+router.get("/", getAllEvents);
+router.put("/:id", updateEvent); 
+router.delete("/:id", isAdmin, deleteEvent); 
+router.get("/:id", getEventById); 
+router.post("/:id/join", authenticate, joinEvent); 
 module.exports = router;
